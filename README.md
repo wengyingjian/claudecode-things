@@ -43,7 +43,18 @@ sudo apt install jq
 sudo yum install jq
 ```
 
-**Windows：**
+**Windows (Git Bash)：**
+- Git for Windows（自带 Git Bash）
+- [jq](https://stedolan.github.io/jq/)（可选；若未安装，脚本自动回退到 Python 3 解析 JSON）
+
+```bash
+# 通过 scoop 安装 jq（推荐）
+scoop install jq
+
+# 或从 https://stedolan.github.io/jq/download/ 下载并放入 PATH
+```
+
+**Windows (PowerShell)：**
 - PowerShell 5.1+（Windows 自带）或 PowerShell 7+（推荐）
 - 无需额外依赖，PowerShell 内置 JSON 解析
 
@@ -70,6 +81,32 @@ chmod +x ~/.claude/statusline.sh
 ```
 
 3. 重启 Claude Code 即可生效。
+
+#### Windows（Git Bash 版）
+
+Claude Code 在 Windows 上优先使用 Git Bash 运行状态行命令。`statusline.sh` 已内置 Python 回退支持，即使未安装 `jq` 也能正常工作。
+
+1. 将 `statusline.sh` 复制到 `~/.claude/` 目录：
+
+```bash
+cp statusline.sh ~/.claude/statusline.sh
+chmod +x ~/.claude/statusline.sh
+```
+
+2. 编辑 `~/.claude/settings.json`，添加 `statusLine` 配置。路径中使用**正斜杠**：
+
+```json
+{
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline.sh"
+  }
+}
+```
+
+3. 重启 Claude Code 即可生效。
+
+> **注意：** 脚本自动检测 `jq` 是否可用，若不可用则回退到 Python 3 解析 JSON，无需额外配置。
 
 #### Windows（PowerShell 版）
 
@@ -116,7 +153,14 @@ rm ~/.claude/statusline.sh
 # 然后从 ~/.claude/settings.json 中删除 statusLine 配置
 ```
 
-**Windows：**
+**Windows (Git Bash)：**
+
+```bash
+rm ~/.claude/statusline.sh
+# 然后从 ~/.claude/settings.json 中删除 statusLine 配置
+```
+
+**Windows (PowerShell)：**
 
 ```powershell
 Remove-Item "$env:USERPROFILE\.claude\statusline.ps1"
