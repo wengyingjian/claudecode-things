@@ -29,6 +29,7 @@ Claude Code 实用工具和配置集合。
 
 ### 前置要求
 
+**macOS / Linux：**
 - [jq](https://stedolan.github.io/jq/)（用于解析 JSON 输入）
 
 ```bash
@@ -42,7 +43,13 @@ sudo apt install jq
 sudo yum install jq
 ```
 
+**Windows：**
+- PowerShell 5.1+（Windows 自带）或 PowerShell 7+（推荐）
+- 无需额外依赖，PowerShell 内置 JSON 解析
+
 ### 使用方法
+
+#### macOS / Linux（Bash 版）
 
 1. 将 `statusline.sh` 复制到 `~/.claude/` 目录：
 
@@ -64,9 +71,58 @@ chmod +x ~/.claude/statusline.sh
 
 3. 重启 Claude Code 即可生效。
 
+#### Windows（PowerShell 版）
+
+1. 将 `statusline.ps1` 复制到 `%USERPROFILE%\.claude\` 目录：
+
+```powershell
+Copy-Item statusline.ps1 "$env:USERPROFILE\.claude\statusline.ps1"
+```
+
+2. 编辑 `%USERPROFILE%\.claude\settings.json`，添加 `statusLine` 配置。路径中使用**正斜杠**（Git Bash 会将反斜杠视为转义字符）：
+
+```json
+{
+  "statusLine": {
+    "type": "command",
+    "command": "powershell -NoProfile -File C:/Users/你的用户名/.claude/statusline.ps1"
+  }
+}
+```
+
+> **提示：** 如果你安装了 PowerShell 7+，可以用 `pwsh` 替代 `powershell` 以获得更好的性能：
+> ```json
+> {
+>   "statusLine": {
+>     "type": "command",
+>     "command": "pwsh -NoProfile -File C:/Users/你的用户名/.claude/statusline.ps1"
+>   }
+> }
+> ```
+
+3. 重启 Claude Code 即可生效。
+
+> **注意：** 如果 Windows 执行策略阻止脚本运行，请先放宽策略：
+> ```powershell
+> Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+> ```
+
 ### 卸载
+
+**macOS / Linux：**
 
 ```bash
 rm ~/.claude/statusline.sh
 # 然后从 ~/.claude/settings.json 中删除 statusLine 配置
 ```
+
+**Windows：**
+
+```powershell
+Remove-Item "$env:USERPROFILE\.claude\statusline.ps1"
+# 然后从 settings.json 中删除 statusLine 配置
+```
+
+## 参考文档
+
+- [状态行完整参考文档](docs/statusline-reference.md) — Claude Code 状态行的完整配置指南、可用字段、示例和故障排除
