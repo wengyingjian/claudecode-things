@@ -1,0 +1,21 @@
+[project]
+name = "learn-skill"
+version = "0.1.0"
+description = "/learn — 自学习 skill：分析对话上下文，产出改进建议并写入目标文件"
+requires-python = ">=3.11"
+dependencies = [
+    "anthropic>=0.50.0",
+]
+
+[project.scripts]
+learn = "learn.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/learn"]
+
+[tool.uv]
+package = false
